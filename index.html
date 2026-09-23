@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel — Pousada Enseada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF8F3;
+    --panel:#FFFFFF;
+    --panel-2:#F1EEE6;
+    --ink:#23271F;
+    --ink-soft:#5B6156;
+    --line:#E3DFD3;
+    --brand:#2F5B4C;
+    --brand-dark:#1F4437;
+    --brand-tint:#E4EDE7;
+    --gold:#A8763A;
+    --gold-tint:#F3E8D6;
+    --slate:#4C6B7A;
+    --slate-tint:#E4EDF0;
+    --brick:#9C4A3C;
+    --brick-tint:#F3E1DC;
+    --ink-tint:#E8E7E2;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#161A15; --panel:#1E2319; --panel-2:#262C20; --ink:#EFEEE8; --ink-soft:#A9AE9F;
+      --line:#333A2C; --brand:#6FA98D; --brand-dark:#548F73; --brand-tint:#25352C;
+      --gold:#D6A85F; --gold-tint:#332A18; --slate:#8FB2C2; --slate-tint:#1F2C31;
+      --brick:#D98874; --brick-tint:#3A241F; --ink-tint:#2A2F24;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#161A15; --panel:#1E2319; --panel-2:#262C20; --ink:#EFEEE8; --ink-soft:#A9AE9F;
+    --line:#333A2C; --brand:#6FA98D; --brand-dark:#548F73; --brand-tint:#25352C;
+    --gold:#D6A85F; --gold-tint:#332A18; --slate:#8FB2C2; --slate-tint:#1F2C31;
+    --brick:#D98874; --brick-tint:#3A241F; --ink-tint:#2A2F24;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--font-body);
+    min-height:100%; display:flex; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+
+  /* ===== Sidebar ===== */
+  .sidebar{
+    width:236px; flex-shrink:0; background:var(--brand-dark); color:#F3F1E9;
+    padding:28px 20px; display:flex; flex-direction:column; gap:36px;
+    position:sticky; top:0; height:100vh;
+  }
+  .brand{display:flex; flex-direction:column; gap:2px;}
+  .brand .mark{
+    font-family:var(--font-display); font-size:22px; font-weight:500; letter-spacing:.2px;
+  }
+  .brand .sub{font-size:12px; color:#C7D6CB;}
+  nav{display:flex; flex-direction:column; gap:4px;}
+  nav a{
+    font-size:14px; padding:10px 12px; border-radius:8px; color:#DCE6DD;
+    display:flex; align-items:center; gap:10px;
+  }
+  nav a svg{width:16px; height:16px; opacity:.8; flex-shrink:0;}
+  nav a.active{background:rgba(255,255,255,.13); color:#fff; font-weight:600;}
+  nav a:hover:not(.active){background:rgba(255,255,255,.07);}
+  .sidebar-foot{
+    margin-top:auto; font-size:12px; color:#AFC2B4; border-top:1px solid rgba(255,255,255,.12);
+    padding-top:16px; line-height:1.5;
+  }
+
+  /* ===== Main ===== */
+  main{flex:1; min-width:0; padding:28px 40px 56px; max-width:1180px;}
+  .topbar{display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:28px; flex-wrap:wrap;}
+  .topbar h1{font-family:var(--font-display); font-size:28px; font-weight:500;}
+  .topbar p{color:var(--ink-soft); font-size:14px; margin-top:4px;}
+  .who{display:flex; align-items:center; gap:12px;}
+  .who .avatar{
+    width:38px; height:38px; border-radius:50%; background:var(--gold-tint); color:var(--gold);
+    display:flex; align-items:center; justify-content:center; font-weight:600; font-size:14px;
+  }
+  .who .name{font-size:13px; font-weight:600;}
+  .who .role{font-size:12px; color:var(--ink-soft);}
+
+  /* ===== Stat strip ===== */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:28px;}
+  .stat{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 18px;
+  }
+  .stat .num{font-family:var(--font-display); font-size:26px; font-weight:500;}
+  .stat .label{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+
+  /* ===== Legend ===== */
+  .legend{
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:20px;
+    padding:12px 16px; background:var(--panel-2); border-radius:10px; font-size:12.5px; color:var(--ink-soft);
+  }
+  .legend .item{display:flex; align-items:center; gap:7px;}
+  .dot{width:9px; height:9px; border-radius:50%; flex-shrink:0;}
+
+  /* ===== Section header ===== */
+  .section-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+  .section-head h2{font-size:15px; font-weight:600;}
+  .section-head .view-all{font-size:13px; color:var(--brand); font-weight:600;}
+
+  /* ===== Room grid ===== */
+  .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .card-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+  .room-id{display:flex; flex-direction:column;}
+  .room-id .num{font-family:var(--font-display); font-size:22px; font-weight:500;}
+  .room-id .type{font-size:12.5px; color:var(--ink-soft);}
+  .badge{
+    font-size:11.5px; font-weight:600; padding:5px 10px; border-radius:999px; white-space:nowrap;
+  }
+  .badge.ocupado{background:var(--ink-tint); color:var(--ink);}
+  .badge.pronto{background:var(--brand-tint); color:var(--brand-dark);}
+  .badge.reservado{background:var(--gold-tint); color:var(--gold);}
+  .badge.limpeza{background:var(--slate-tint); color:var(--slate);}
+  .badge.manutencao{background:var(--brick-tint); color:var(--brick);}
+  .badge.naoperturbe{background:var(--ink-tint); color:var(--ink-soft);}
+
+  .card-body{font-size:13px; color:var(--ink-soft); display:flex; flex-direction:column; gap:5px; min-height:34px;}
+  .card-body .guest{color:var(--ink); font-weight:600; font-size:13.5px;}
+
+  .card-foot{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:auto; padding-top:12px; border-top:1px solid var(--line);}
+  .card-foot .eta{font-size:12px; color:var(--ink-soft);}
+  .card-foot button{
+    font-size:12.5px; font-weight:600; padding:7px 12px; border-radius:8px; background:var(--brand); color:#fff;
+  }
+  .card-foot button.ghost{background:transparent; color:var(--brand); border:1px solid var(--line);}
+  .card-foot button:hover{filter:brightness(0.95);}
+
+  .card.alert{border-color:var(--brick);}
+
+  @media (max-width: 980px){
+    .sidebar{display:none;}
+    main{padding:20px 18px 40px; max-width:100%;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .grid{grid-template-columns:1fr;}
+  }
+  @media (max-width: 560px){
+    .stats{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="mark">Pousada Enseada</div>
+    <div class="sub">Painel administrativo</div>
+  </div>
+  <nav>
+    <a class="active" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Painel
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+      Quartos
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg>
+      Reservas
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4.2-6 7-6s5.8 2 7 6"/></svg>
+      Hóspedes
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 12a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4M3 12a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4"/></svg>
+      Financeiro
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.6 1H21a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.6 1Z"/></svg>
+      Configurações
+    </a>
+  </nav>
+  <div class="sidebar-foot">Temporada de verão<br>3 quartos livres hoje</div>
+</aside>
+
+<main>
+  <div class="topbar">
+    <div>
+      <h1>Bom dia, Marina</h1>
+      <p>Quinta-feira, 24 de setembro — visão geral dos quartos</p>
+    </div>
+    <div class="who">
+      <div>
+        <div class="name" style="text-align:right">Marina Alves</div>
+        <div class="role">Recepção</div>
+      </div>
+      <div class="avatar">MA</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">67%</div><div class="label">Ocupação hoje</div></div>
+    <div class="stat"><div class="num">2</div><div class="label">Check-ins previstos</div></div>
+    <div class="stat"><div class="num">1</div><div class="label">Check-outs pendentes</div></div>
+    <div class="stat"><div class="num">2</div><div class="label">Quartos prontos</div></div>
+  </div>
+
+  <div class="legend">
+    <div class="item"><span class="dot" style="background:var(--ink)"></span>Ocupado</div>
+    <div class="item"><span class="dot" style="background:var(--brand)"></span>Pronto p/ reserva</div>
+    <div class="item"><span class="dot" style="background:var(--gold)"></span>Reservado — chega hoje</div>
+    <div class="item"><span class="dot" style="background:var(--slate)"></span>Em limpeza</div>
+    <div class="item"><span class="dot" style="background:var(--brick)"></span>Manutenção</div>
+    <div class="item"><span class="dot" style="background:var(--ink-soft)"></span>Não perturbe</div>
+  </div>
+
+  <div class="section-head">
+    <h2>Quartos</h2>
+    <a class="view-all" href="#">Ver todos os 14 →</a>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-top">
+        <div class="room-id"><span class="num">02</span><span class="type">Standard vista jardim</span></div>
+        <span class="badge ocupado">Ocupado</span>
+      </div>
+      <div class="card-body">
+        <span class="guest">Renata e Paulo Souza</span>
+        <span>2 hóspedes · saída amanhã, 11h</span>
+      </div>
+      <div class="card-foot">
+        <span class="eta">Diária 3 de 4</span>
+        <button class="ghost">Ver reserva</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="room-id"><span class="num">05</span><span class="type">Superior varanda</span></div>
+        <span class="badge pronto">Pronto</span>
+      </div>
+      <div class="card-body">
+        <span>Sem hóspede no momento</span>
+        <span>Inspecionado às 10:40</span>
+      </div>
+      <div class="card-foot">
+        <span class="eta">Livre desde hoje</span>
+        <button>Alocar reserva</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="room-id"><span class="num">08</span><span class="type">Chalé casal</span></div>
+        <span class="badge reservado">Reservado</span>
+      </div>
+      <div class="card-body">
+        <span class="guest">Fernanda Lima</span>
+        <span>Chegada prevista às 15h</span>
+      </div>
+      <div class="card-foot">
+        <span class="eta">2 diárias</span>
+        <button class="ghost">Preparar check-in</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="room-id"><span class="num">11</span><span class="type">Standard vista jardim</span></div>
+        <span class="badge limpeza">Em limpeza</span>
+      </div>
+      <div class="card-body">
+        <span>Camareira: Joana</span>
+        <span>Check-out às 11h · em andamento</span>
+      </div>
+      <div class="card-foot">
+        <span class="eta">~20 min restantes</span>
+        <button class="ghost">Marcar pronto</button>
+      </div>
+    </div>
+
+    <div class="card alert">
+      <div class="card-top">
+        <div class="room-id"><span class="num">14</span><span class="type">Superior varanda</span></div>
+        <span class="badge manutencao">Manutenção</span>
+      </div>
+      <div class="card-body">
+        <span>Ar-condicionado com defeito</span>
+        <span>Chamado aberto desde ontem</span>
+      </div>
+      <div class="card-foot">
+        <span class="eta">Fora de operação</span>
+        <button class="ghost">Ver chamado</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="room-id"><span class="num">17</span><span class="type">Chalé família</span></div>
+        <span class="badge naoperturbe">Não perturbe</span>
+      </div>
+      <div class="card-body">
+        <span class="guest">Família Ribeiro</span>
+        <span>4 hóspedes · saída em 2 dias</span>
+      </div>
+      <div class="card-foot">
+        <span class="eta">Diária 1 de 3</span>
+        <button class="ghost">Ver reserva</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
